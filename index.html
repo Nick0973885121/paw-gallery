@@ -149,7 +149,7 @@ function openPet(id){
     var phone = document.getElementById('pgPhone').value.trim();
     var time = document.getElementById('pgTime').value.trim() || '未指定時段';
     if (!name || !phone) { alert('⚠️ 請先填寫您的姓名與聯絡電話！'); return; }
-    fetch('https://b123b71235b031.app.lhr.life/api/save', {
+    fetch('https://97baf7c2c4a669.app.lhr.life/api/save', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -198,6 +198,9 @@ f();
   </script>
 </footer>
 </body></html>
+
+
+
 
 
 
