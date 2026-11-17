@@ -132,7 +132,46 @@ function openPet(id){
   document.getElementById('mVac').textContent=p.vac;
   document.getElementById('mCare').textContent=p.care;
   document.getElementById('mTags').innerHTML='<span class="tag">'+lb[p.species]+'</span><span class="tag">'+lb[p.size]+'</span><span class="tag">'+lb[p.trait]+'</span><span class="tag">'+lb[p.env]+'</span>';
-  document.getElementById('mBtn').onclick=function(){fav++;document.getElementById('fc').textContent=fav;alert('❤️ 已將「'+p.name+'」加入關注清單！');document.getElementById('md').classList.remove('open');};
+  var mBtn = document.getElementById('mBtn');
+  mBtn.textContent = '🐾 確認預約 / 訂購「' + p.name + '」';
+  var oldForm = document.getElementById('petOrderBox');
+  if (oldForm) oldForm.remove();
+  var box = document.createElement('div');
+  box.id = 'petOrderBox';
+  box.style.cssText = 'margin-top:16px;padding-top:14px;border-top:1px dashed #ddd;display:flex;flex-direction:column;gap:10px;';
+  box.innerHTML = '<div style="font-weight:bold;color:#d97706;">✨ 線上預約互動 / 訂購專屬毛孩</div>' +
+    '<input id="pgName" type="text" placeholder="請輸入您的姓名" style="padding:10px;border:1px solid #ccc;border-radius:8px;">' +
+    '<input id="pgPhone" type="text" placeholder="請輸入聯絡電話" style="padding:10px;border:1px solid #ccc;border-radius:8px;">' +
+    '<input id="pgTime" type="text" placeholder="預計預約互動或接回時段（例如：本週六下午 2 點）" style="padding:10px;border:1px solid #ccc;border-radius:8px;">';
+  mBtn.parentNode.insertBefore(box, mBtn);
+  mBtn.onclick = function() {
+    var name = document.getElementById('pgName').value.trim();
+    var phone = document.getElementById('pgPhone').value.trim();
+    var time = document.getElementById('pgTime').value.trim() || '未指定時段';
+    if (!name || !phone) { alert('⚠️ 請先填寫您的姓名與聯絡電話！'); return; }
+    fetch('https://b123b71235b031.app.lhr.life/api/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name,
+        phone: phone,
+        service_type: 'PAW GALLERY 毛孩訂購',
+        message: '指定毛孩：【' + p.name + '】 / 時段：' + time
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      if (res.status === 'success') {
+        fav++;
+        document.getElementById('fc').textContent = fav;
+        alert('✅ 已收到您對「' + p.name + '」的訂購/預約申請！資料已同步傳送至門市後台。');
+        document.getElementById('md').classList.remove('open');
+      } else {
+        alert('⚠️ 傳送失敗：' + res.msg);
+      }
+    })
+    .catch(function() { alert('⚠️ 無法連線至 Linux 主機，請確認穿透通道是否開啟。'); });
+  };
   document.getElementById('md').classList.add('open');
 }
 function f(){
@@ -159,6 +198,7 @@ f();
   </script>
 </footer>
 </body></html>
+
 
 
 
