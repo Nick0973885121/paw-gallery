@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><title>PAW GALLERY — 毛孩生活美學與領養圖鑑</title>
+﻿<!DOCTYPE html><html lang="zh-Hant" translate="no"><head><meta charset="UTF-8"><title>🐾 PAW GALLERY｜毛孩生活美學與領養互動空間</title>
 <style>
   :root{--bg:#f8f4ec;--card:#ffffff;--sand:#f1e9db;--brown:#2f221b;--amber:#c86d1f;--muted:#75685e;--border:#e5dccb}
   *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI','Microsoft JhengHei',sans-serif}
@@ -66,7 +66,75 @@
   .card:nth-child(7){animation-delay:.48s, 1.9s}
   .card:nth-child(8){animation-delay:.56s, 2.1s}
   .card:hover{animation-play-state:paused;transform:translateY(-10px) scale(1.02);border-color:var(--amber);box-shadow:0 20px 40px rgba(47,34,27,.16)}
-</style></head><body>
+</style><style id="floating-google-btn-style">
+  .floating-google-review {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 999;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    color: var(--brown, #2f221b);
+    padding: 11px 20px;
+    border-radius: 99px;
+    font-size: 0.92rem;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(47, 34, 27, 0.16);
+    border: 1px solid rgba(200, 109, 31, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(40px) scale(0.92);
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .floating-google-review.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+  .floating-google-review.show:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 10px 26px rgba(47, 34, 27, 0.24);
+    border-color: var(--amber, #c86d1f);
+  }
+  .floating-google-review .star {
+    color: #f59e0b;
+    font-size: 1.15rem;
+    line-height: 1;
+  }
+</style>
+<style id="paw-zoom-style">
+  .m-left {
+    position: relative;
+    overflow: hidden;
+    cursor: zoom-in;
+    background: #f8f4ec;
+  }
+  .m-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.16s ease-out;
+    will-change: transform;
+  }
+  .paw-zoom-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--brown, #2f221b);
+    padding: 5px 12px;
+    border-radius: 99px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+    z-index: 5;
+  }
+</style>
+</head><body>
 <div class="sun-sweep"><div class="sun-beam"></div></div>
 <header>
   <div class="logo">🐾 PAW GALLERY<span>毛孩生活美學與領養圖鑑</span></div>
@@ -197,7 +265,64 @@ f();
     })();
   </script>
 </footer>
+<a href="https://google.com" 
+   target="_blank" 
+   rel="noopener" 
+   class="floating-google-review">
+  <span class="star">★</span>
+  <span>Google 評論 (5.0)</span>
+</a>
+<script id="floating-google-btn-js">
+  window.addEventListener('DOMContentLoaded', function() {
+    const btn = document.querySelector('.floating-google-review');
+    const footerMap = document.getElementById('gmapLink');
+    if (btn && footerMap && footerMap.href) {
+      btn.href = footerMap.href;
+    }
+    if (!btn) return;
+    let popTimer;
+    setTimeout(() => btn.classList.add('show'), 300);
+    window.addEventListener('scroll', function() {
+      btn.classList.remove('show');
+      clearTimeout(popTimer);
+      popTimer = setTimeout(() => {
+        btn.classList.add('show');
+      }, 300);
+    }, { passive: true });
+  });
+</script>
+<script id="paw-zoom-js">
+  window.addEventListener('DOMContentLoaded', function() {
+    const box = document.querySelector('.m-left');
+    const img = document.getElementById('mImg');
+    if (!box || !img) return;
+
+    // 加上放大鏡提示標籤
+    if (!box.querySelector('.paw-zoom-badge')) {
+      const tip = document.createElement('div');
+      tip.className = 'paw-zoom-badge';
+      tip.textContent = '🔍 移動滑鼠 2.2x 鑑賞毛髮細節';
+      box.appendChild(tip);
+    }
+
+    box.addEventListener('mousemove', function(e) {
+      const rect = box.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      img.style.transformOrigin = x + '% ' + y + '%';
+      img.style.transform = 'scale(2.2)';
+    });
+
+    box.addEventListener('mouseleave', function() {
+      img.style.transformOrigin = 'center center';
+      img.style.transform = 'scale(1)';
+    });
+  });
+</script>
 </body></html>
+
+
+
 
 
 
