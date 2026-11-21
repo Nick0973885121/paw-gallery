@@ -319,7 +319,57 @@ f();
     });
   });
 </script>
+<style id="mobile-preview-mode-style">
+  #mobileToggleBtn {
+    position: fixed;
+    left: 24px;
+    bottom: 24px;
+    z-index: 10000;
+    background: #2f221b;
+    color: #fff;
+    border: 1.5px solid #c86d1f;
+    padding: 10px 18px;
+    border-radius: 99px;
+    font-size: 0.88rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+    transition: all 0.25s ease;
+  }
+  #mobileToggleBtn:hover {
+    background: #c86d1f;
+    transform: translateY(-2px);
+  }
+  html.is-mobile-preview {
+    background: #181a20 !important;
+    padding: 28px 0;
+  }
+  html.is-mobile-preview body {
+    width: 390px !important;
+    min-height: 820px !important;
+    max-height: 86vh !important;
+    margin: 0 auto !important;
+    border-radius: 42px !important;
+    border: 10px solid #111318 !important;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 0 2px #4b5563 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    position: relative !important;
+  }
+  html.is-mobile-preview .nav-links { display: none !important; }
+  html.is-mobile-preview .grid { grid-template-columns: 1fr !important; }
+  html.is-mobile-preview .mbox { grid-template-columns: 1fr !important; max-width: 350px !important; }
+</style>
+<button id="mobileToggleBtn" onclick="toggleMobilePreview()">📱 切換手機瀏覽模式</button>
+<script id="mobile-preview-mode-js">
+  function toggleMobilePreview() {
+    const isMobile = document.documentElement.classList.toggle('is-mobile-preview');
+    const btn = document.getElementById('mobileToggleBtn');
+    btn.textContent = isMobile ? '💻 恢復電腦全螢幕' : '📱 切換手機瀏覽模式';
+  }
+</script>
 </body></html>
+
 
 
 
